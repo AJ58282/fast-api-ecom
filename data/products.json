@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "sku": "abc-def-063",
     "name": "Apple iPhone 15",
     "category": "Smartphones",
     "price": 29999,
@@ -9,10 +10,27 @@
     "rating": 4.7,
     "brand": "Apple",
     "description": "128GB, Black, A16 Bionic chip",
-    "is_available": true
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 14.7,
+      "width": 7.1,
+      "height": 0.8
+    },
+    "image_urls": [
+      "https://example.com/images/iphone15-front.jpg",
+      "https://example.com/images/iphone15-back.jpg",
+      "https://example.com/images/iphone15-side.jpg"
+    ],
+    "seller": {
+      "seller_id": "73cbdd06-5668-4e52-b172-e765f8468398",
+      "name": "Apple Store India",
+      "email": "support@apple.in",
+      "website": "https://www.apple.com/in"
+    }
   },
   {
     "id": 2,
+    "sku": "abc-def-941",
     "name": "Samsung Galaxy S23",
     "category": "Smartphones",
     "price": 74999,
@@ -20,11 +38,28 @@
     "stock": 18,
     "rating": 4.6,
     "brand": "Samsung",
-    "description": "256GB, Phantom Black, Snapdragon 8 Gen 2",
-    "is_available": true
+    "description": "256GB, Phantom Black",
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 14.6,
+      "width": 7.0,
+      "height": 0.76
+    },
+    "image_urls": [
+      "https://example.com/images/s23-front.jpg",
+      "https://example.com/images/s23-back.jpg",
+      "https://example.com/images/s23-display.jpg"
+    ],
+    "seller": {
+      "seller_id": "84dcaa12-4579-41ac-9912-e12a94857201",
+      "name": "Samsung India",
+      "email": "support@samsung.in",
+      "website": "https://www.samsung.com/in"
+    }
   },
   {
     "id": 3,
+    "sku": "abc-def-271",
     "name": "Dell Inspiron 15",
     "category": "Laptops",
     "price": 58999,
@@ -33,10 +68,27 @@
     "rating": 4.4,
     "brand": "Dell",
     "description": "Intel i5, 16GB RAM, 512GB SSD",
-    "is_available": true
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 35.8,
+      "width": 23.5,
+      "height": 1.9
+    },
+    "image_urls": [
+      "https://example.com/images/dell-front.jpg",
+      "https://example.com/images/dell-keyboard.jpg",
+      "https://example.com/images/dell-side.jpg"
+    ],
+    "seller": {
+      "seller_id": "12abdd90-5523-4ef2-a612-c93ff4578891",
+      "name": "Dell India",
+      "email": "support@dell.in",
+      "website": "https://www.dell.com/en-in"
+    }
   },
   {
     "id": 4,
+    "sku": "abc-def-098",
     "name": "Sony WH-1000XM5",
     "category": "Headphones",
     "price": 24999,
@@ -45,10 +97,27 @@
     "rating": 4.8,
     "brand": "Sony",
     "description": "Wireless Noise Cancelling Headphones",
-    "is_available": true
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 25.4,
+      "width": 18.3,
+      "height": 7.6
+    },
+    "image_urls": [
+      "https://example.com/images/sony-front.jpg",
+      "https://example.com/images/sony-folded.jpg",
+      "https://example.com/images/sony-wearing.jpg"
+    ],
+    "seller": {
+      "seller_id": "90bcaa22-3333-4cd2-b1f1-d098bc123445",
+      "name": "Sony India",
+      "email": "support@sony.co.in",
+      "website": "https://www.sony.co.in"
+    }
   },
   {
     "id": 5,
+    "sku": "abc-def-318",
     "name": "Logitech MX Master 3S",
     "category": "Accessories",
     "price": 9999,
@@ -57,10 +126,27 @@
     "rating": 4.9,
     "brand": "Logitech",
     "description": "Wireless Productivity Mouse",
-    "is_available": true
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 12.4,
+      "width": 8.4,
+      "height": 5.1
+    },
+    "image_urls": [
+      "https://example.com/images/mxmaster-top.jpg",
+      "https://example.com/images/mxmaster-side.jpg",
+      "https://example.com/images/mxmaster-use.jpg"
+    ],
+    "seller": {
+      "seller_id": "55aa2390-1122-4ac3-bf55-1234abcd9876",
+      "name": "Logitech India",
+      "email": "support@logitech.in",
+      "website": "https://www.logitech.com/en-in"
+    }
   },
   {
     "id": 6,
+    "sku": "abc-def-163",
     "name": "Boat Airdopes 141",
     "category": "Earbuds",
     "price": 1299,
@@ -69,10 +155,27 @@
     "rating": 4.2,
     "brand": "Boat",
     "description": "Bluetooth TWS Earbuds",
-    "is_available": true
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 6.5,
+      "width": 4.2,
+      "height": 2.7
+    },
+    "image_urls": [
+      "https://example.com/images/boat-case.jpg",
+      "https://example.com/images/boat-earbuds.jpg",
+      "https://example.com/images/boat-wear.jpg"
+    ],
+    "seller": {
+      "seller_id": "8899aa11-ccdd-4ff2-a112-445566778899",
+      "name": "Boat Official Store",
+      "email": "support@boat-lifestyle.com",
+      "website": "https://www.boat-lifestyle.com"
+    }
   },
   {
     "id": 7,
+    "sku": "abc-def-531",
     "name": "HP Pavilion Gaming",
     "category": "Laptops",
     "price": 72999,
@@ -80,11 +183,28 @@
     "stock": 10,
     "rating": 4.5,
     "brand": "HP",
-    "description": "Ryzen 7, 16GB RAM, 1TB SSD, RTX 3050",
-    "is_available": true
+    "description": "Ryzen 7, RTX 3050",
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 36.0,
+      "width": 25.5,
+      "height": 2.3
+    },
+    "image_urls": [
+      "https://example.com/images/hp-front.jpg",
+      "https://example.com/images/hp-keyboard.jpg",
+      "https://example.com/images/hp-back.jpg"
+    ],
+    "seller": {
+      "seller_id": "ffab1122-3344-4455-aa66-77889900bbcc",
+      "name": "HP India",
+      "email": "support@hp.com",
+      "website": "https://www.hp.com/in"
+    }
   },
   {
     "id": 8,
+    "sku": "abc-def-453",
     "name": "Apple Watch Series 9",
     "category": "Smartwatch",
     "price": 41999,
@@ -92,7 +212,23 @@
     "stock": 20,
     "rating": 4.7,
     "brand": "Apple",
-    "description": "GPS, 45mm, Midnight Aluminium",
-    "is_available": true
+    "description": "GPS, 45mm",
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 4.5,
+      "width": 3.8,
+      "height": 1.0
+    },
+    "image_urls": [
+      "https://example.com/images/watch-front.jpg",
+      "https://example.com/images/watch-strap.jpg",
+      "https://example.com/images/watch-display.jpg"
+    ],
+    "seller": {
+      "seller_id": "99887766-aabb-4cdd-8899-112233445566",
+      "name": "Apple Store India",
+      "email": "support@apple.in",
+      "website": "https://www.apple.com/in"
+    }
   }
 ]

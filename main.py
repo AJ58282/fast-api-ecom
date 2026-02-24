@@ -1,8 +1,9 @@
 from fastapi import FastAPI,HTTPException,Query
 from services.products import get_products
 from fastapi import Path
+from schema.product import Product
 app=FastAPI()
-
+#app.get is for getting/fetching the data from the database etc.
 #static route result remains the same
 @app.get("/")
 def root():
@@ -46,11 +47,16 @@ def list_products(name:str=Query(default=None,min_length=1,max_length=50,descrip
      }
 
 @app.get('/products/{product_id}')
-def get_product_by_id(product_id:int=Path(...,ge=1,le=50,description="Search by product id",example=1,)):
+def get_product_by_id(product_id:int=Path(...,ge=1,le=50,description="Search by product id",examples=1,)):
      products=get_products()
      prod=[p for p in products if p.get('id')==product_id]
      if not prod:
           raise HTTPException(status_code=404,detail=F"Product with id {product_id} not found")
      return prod[0]
 
+#post used for getting/accepting the input data from the user which is used for some operation
+#we have build a different file for the pydantic input validation stored in schema folder
+@app.post('/products',status_code=201)
+def create_product(product:Product):
+     return product
 
