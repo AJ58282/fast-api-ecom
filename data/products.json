@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "name": "Apple iPhone 15",
+    "category": "Smartphones",
+    "price": 29999,
+    "currency": "INR",
+    "stock": 25,
+    "rating": 4.7,
+    "brand": "Apple",
+    "description": "128GB, Black, A16 Bionic chip",
+    "is_available": true
+  },
+  {
+    "id": 2,
+    "name": "Samsung Galaxy S23",
+    "category": "Smartphones",
+    "price": 74999,
+    "currency": "INR",
+    "stock": 18,
+    "rating": 4.6,
+    "brand": "Samsung",
+    "description": "256GB, Phantom Black, Snapdragon 8 Gen 2",
+    "is_available": true
+  },
+  {
+    "id": 3,
+    "name": "Dell Inspiron 15",
+    "category": "Laptops",
+    "price": 58999,
+    "currency": "INR",
+    "stock": 12,
+    "rating": 4.4,
+    "brand": "Dell",
+    "description": "Intel i5, 16GB RAM, 512GB SSD",
+    "is_available": true
+  },
+  {
+    "id": 4,
+    "name": "Sony WH-1000XM5",
+    "category": "Headphones",
+    "price": 24999,
+    "currency": "INR",
+    "stock": 30,
+    "rating": 4.8,
+    "brand": "Sony",
+    "description": "Wireless Noise Cancelling Headphones",
+    "is_available": true
+  },
+  {
+    "id": 5,
+    "name": "Logitech MX Master 3S",
+    "category": "Accessories",
+    "price": 9999,
+    "currency": "INR",
+    "stock": 40,
+    "rating": 4.9,
+    "brand": "Logitech",
+    "description": "Wireless Productivity Mouse",
+    "is_available": true
+  },
+  {
+    "id": 6,
+    "name": "Boat Airdopes 141",
+    "category": "Earbuds",
+    "price": 1299,
+    "currency": "INR",
+    "stock": 60,
+    "rating": 4.2,
+    "brand": "Boat",
+    "description": "Bluetooth TWS Earbuds",
+    "is_available": true
+  },
+  {
+    "id": 7,
+    "name": "HP Pavilion Gaming",
+    "category": "Laptops",
+    "price": 72999,
+    "currency": "INR",
+    "stock": 10,
+    "rating": 4.5,
+    "brand": "HP",
+    "description": "Ryzen 7, 16GB RAM, 1TB SSD, RTX 3050",
+    "is_available": true
+  },
+  {
+    "id": 8,
+    "name": "Apple Watch Series 9",
+    "category": "Smartwatch",
+    "price": 41999,
+    "currency": "INR",
+    "stock": 20,
+    "rating": 4.7,
+    "brand": "Apple",
+    "description": "GPS, 45mm, Midnight Aluminium",
+    "is_available": true
+  }
+]
