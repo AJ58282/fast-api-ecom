@@ -12,6 +12,13 @@ from datetime import datetime
 from pydantic import EmailStr
 
 
+class Dimension(BaseModel):
+    length:Annotated[float,Field(gt=0,lt=100,description="length of product/device")]
+    width:Annotated[float,Field(gt=0,lt=50,description="width of product/device")]
+    height:Annotated[float,Field(gt=0,lt=50,description="height of product/device")]
+
+
+
 class Seller(BaseModel):
     seller_id: UUID
     name:Annotated[str,Field(description="Seller name")]
@@ -39,6 +46,8 @@ class Product(BaseModel):
     brand: Annotated[str,Field(min_length=1, max_length=50, description="Brand name")]
     description: Annotated[str,Field(min_length=1, max_length=200, description="Product description")]
     is_available: bool
+    seller:Seller
+    dimensions:Dimension
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 #field validator only works on single field
@@ -64,8 +73,13 @@ class Product(BaseModel):
         return model
 #computed field is used to create a new field using 2 or more original fields, perform operation on
 # original field for output as a new field
+# the new field will be seen at the end of the file
     @computed_field
     @property
     def final_price(self)->float:
         return self.price-10000
-#the new field will be seen at the end of the file
+
+    @computed_field
+    @property
+    def volume(self)->float:
+        return self.dimensions.length*self.dimensions.width*self.dimensions.height
