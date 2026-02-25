@@ -1,0 +1,29 @@
+{
+    "id": 1,
+    "sku": "abc-def-063",
+    "name": "Apple iPhone 15",
+    "category": "Smartphones",
+    "price": 29999,
+    "currency": "INR",
+    "stock": 25,
+    "rating": 4.7,
+    "brand": "Apple",
+    "description": "128GB, Black, A16 Bionic chip",
+    "is_available": true,
+    "dimensions_cm": {
+      "length": 14.7,
+      "width": 7.1,
+      "height": 0.8
+    },
+    "image_urls": [
+      "https://example.com/images/iphone15-front.jpg",
+      "https://example.com/images/iphone15-back.jpg",
+      "https://example.com/images/iphone15-side.jpg"
+    ],
+    "seller": {
+      "seller_id": "73cbdd06-5668-4e52-b172-e765f8468398",
+      "name": "Apple Store India",
+      "email": "support@apple.in",
+      "website": "https://www.apple.com/in"
+    }
+  }
