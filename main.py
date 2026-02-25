@@ -1,7 +1,7 @@
 from fastapi import FastAPI,HTTPException,Query
-from services.products import get_products, add_product,remove_product
+from services.products import get_products, add_product,remove_product,change_product
 from fastapi import Path
-from schema.product import Product
+from schema.product import Product,ProductUpdate
 from uuid import uuid4, UUID
 from datetime import datetime
 app=FastAPI()
@@ -57,7 +57,7 @@ def get_product_by_id(product_id:int=Path(...,ge=1,le=50,description="Search by 
      return prod[0]
 
 #post used for getting/accepting the input data from the user which is used for some operation
-#we have build a different file for the pydantic input validation stored in schema folder
+#we have built a different file for the pydantic input validation stored in schema folder
 #C aka create of CRUD operations
 @app.post('/products',status_code=201)
 def create_product(product:Product):
@@ -70,6 +70,7 @@ def create_product(product:Product):
           raise HTTPException(status_code=400,detail=str(e))
      return product.model_dump(mode="json")
 
+#D aka delete of CRUD
 @app.delete('/products/{product_id}')
 def delete_product(product_id:UUID = Path(...,description="Delete product id",examples=[UUID("73cbdd06-5668-4e52-b172-e765f8468398")],)):
      try:
@@ -78,5 +79,21 @@ def delete_product(product_id:UUID = Path(...,description="Delete product id",ex
      except ValueError as e:
           raise HTTPException(status_code=400,detail=str(e))
 
-
+#U aks update of CRUD
+#created update_product using a different pydantic class whether entries are optional
+#payload:ProductUpdate where product update is the new class and payload is a parameter to call it
+#exclude_unset is used to exclude variables which are not being passed in the function
+@app.put('/products/{product_id}')
+def update_product(
+    product_id: UUID = Path(..., description="Update product"),
+    payload: ProductUpdate = ...
+):
+    try:
+        updated = change_product(
+            str(product_id),
+            payload.model_dump(mode="json", exclude_unset=True)
+        )
+        return updated
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
