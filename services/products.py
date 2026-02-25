@@ -1,4 +1,4 @@
-# now we will acess the data of the json file and run some basic operation of getting data from the database ...
+# now we will access the data of the json file and run some basic operation of getting data from the database ...
 
 import json
 from pathlib import  Path
@@ -40,4 +40,22 @@ def remove_product(id:str)->str:
             save_products(products)
             return {"message":"product deleted","data":deleted}
 
+def change_product(product_id:str,update_data:dict):
+    products=get_products()
+    for idx,p in enumerate(products):
+
+        for key,value in update_data.items():
+            if value is None:
+                continue
+
+            if isinstance(value,dict) and isinstance(p.get(key),dict):
+                p[key].update(value)
+            else:
+                p[key]=value
+
+        products[idx]=p
+        save_products(p)
+        return p
+
+    raise ValueError("Product not found")
 
