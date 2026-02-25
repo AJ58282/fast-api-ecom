@@ -1,58 +1,37 @@
 [
-  {
-    "id": 1,
-    "sku": "abc-def-063",
-    "name": "Apple iPhone 15",
-    "category": "Smartphones",
-    "price": 29999,
-    "currency": "INR",
-    "stock": 25,
-    "rating": 4.7,
-    "brand": "Apple",
-    "description": "128GB, Black, A16 Bionic chip",
-    "is_available": true,
-    "dimensions_cm": {
-      "length": 14.7,
-      "width": 7.1,
-      "height": 0.8
-    },
-    "image_urls": [
-      "https://example.com/images/iphone15-front.jpg",
-      "https://example.com/images/iphone15-back.jpg",
-      "https://example.com/images/iphone15-side.jpg"
-    ],
-    "seller": {
-      "seller_id": "73cbdd06-5668-4e52-b172-e765f8468398",
-      "name": "Apple Store India",
-      "email": "support@apple.in",
-      "website": "https://www.apple.com/in"
-    }
+{
+  "id": 1,
+  "sku": "abc-def-063",
+  "name": "Product name",
+  "category": "string",
+  "price": 1000,
+  "currency": "INR",
+  "stock": 1000,
+  "rating": 5.0,
+  "brand": "string",
+  "description": "string",
+  "is_available": true,
+  "dimensions_cm": {
+    "length": 14.7,
+    "width": 7.1,
+    "height": 0.8
   },
-  {
-    "id": "29d900aa-4c75-46a9-b154-9986cc17e2aa",
-    "sku": "abc-def-000",
-    "name": "Product name",
-    "category": "string",
-    "price": 1,
-    "currency": "INR",
-    "stock": 10,
-    "rating": 5,
-    "brand": "string",
-    "description": "string",
-    "is_available": true,
-    "seller": {
-      "seller_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "name": "string",
-      "email": "user@sony.in",
-      "website": "https://example.com/"
-    },
-    "dimensions": {
-      "length": 1,
-      "width": 1,
-      "height": 1
-    },
-    "created_at": "2026-02-25T05:43:09.794482",
-    "final_price": -9999,
-    "volume": 1
-  }
-]
+  "image_urls": [
+    "https://example.com/images/iphone15-front.jpg",
+    "https://example.com/images/iphone15-back.jpg",
+    "https://example.com/images/iphone15-side.jpg"
+  ],
+  "seller": {
+    "seller_id": "73cbdd06-5668-4e52-b172-e765f8468398",
+    "name": "string",
+    "email": "user@sony.in",
+    "website": "https://example.com/"
+  },
+  "dimensions": {
+    "length": 1.0,
+    "width": 1.0,
+    "height": 1.0
+  },
+  "final_price": -9000.0,
+  "volume": 1.0
+}]
