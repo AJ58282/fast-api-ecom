@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field,field_validator,model_validator,computed_f
 from typing import Annotated, Literal
 from uuid import UUID
 from datetime import datetime
+from typing import Optional,List
 
 from pydantic import EmailStr
 
@@ -83,3 +84,47 @@ class Product(BaseModel):
     @property
     def volume(self)->float:
         return self.dimensions.length*self.dimensions.width*self.dimensions.height
+
+class SellerUpdate(BaseModel):
+    name: Optional[str]=Field(description="Seller's name")
+    email:Optional[EmailStr]
+    website:Optional[AnyUrl]
+
+class DimensionUpdate(BaseModel):
+    length:Optional[float]=Field(description="Length of product/device")
+    width:Optional[float]=Field(description="Width of product/device")
+    height:Optional[float]=Field(description="Height of product/device")
+
+class ProductUpdate(BaseModel):
+    name: Optional[str] = None
+    category: Optional[str] = None
+    price: Optional[int] = None
+    currency: Optional[Literal["INR"]] = None
+    stock: Optional[int] = None
+    rating: Optional[float] = None
+    brand: Optional[str] = None
+    description: Optional[str] = None
+    is_available: Optional[bool] = None
+    image_url: Optional[List[AnyUrl]] = None
+    seller: Optional[SellerUpdate] = None
+    dimensions: Optional[DimensionUpdate] = None
+    created_at: Optional[datetime] = None
+
+
+    @model_validator(mode="after")
+    @classmethod
+    def validater(cls, model: "Product"):
+        if model.stock == 0 and model.is_available:
+            raise ValueError("if stock is 0 , model should not be available")
+
+        return model
+
+    @computed_field
+    @property
+    def final_price(self) -> float:
+        return self.price - 10000
+
+    @computed_field
+    @property
+    def volume(self) -> float:
+        return self.dimensions.length * self.dimensions.width * self.dimensions.height
