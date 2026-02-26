@@ -1,130 +1,152 @@
 import os
 from dotenv import load_dotenv
-from fastapi import FastAPI,HTTPException,Query,Path,Depends,Request
+from fastapi import FastAPI, HTTPException, Query, Path, Depends
 from fastapi.responses import JSONResponse
-from services.products import get_products, add_product,remove_product,change_product
-from schema.product import Product,ProductUpdate
+from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import uuid4, UUID
 from datetime import datetime
-from typing import Dict
+from typing import Dict, List
+
+from db.session import get_db
+from services.products import (
+    get_all_products,
+    add_product,
+    remove_product,
+    update_product
+)
+from schema.product import Product, ProductUpdate
 
 load_dotenv()
-app=FastAPI()
 
-DB_PATH=os.getenv("BASE_URL")
+app = FastAPI()
+
+DB_PATH = os.getenv("BASE_URL")
 
 
-#basically tells the lifecycle of the request and response
-#request->dependency->validation(if any)->function->output->response
-# @app.middleware("http")
-# async def lifecycle(request:Request,call_next):
-#      print("Before lifecycle")\
-#      response = await call_next(request)
-#      print("After lifecycle")
-#      return response
+# ---------------- ROOT ----------------
+@app.get("/", response_model=Dict)
+async def root():
+    return JSONResponse(
+        status_code=200,
+        content={
+            "message": "Welcome to FastAPI",
+            "Data_path": DB_PATH
+        }
+    )
 
-#app.get is for getting/fetching the data from the database etc.
-#static route result remains the same
 
-#response_model is for defining in the route what type of output we will get
-#Depends(func) is basically for using reusable code
-#hello function can be used with any other function
-def hello():
-     return "Hello world"
+# ---------------- GET ALL PRODUCTS ----------------
+@app.get("/products")
+async def list_products(
+    name: str = Query(default=None, min_length=1, max_length=50),
+    sort_price: bool = Query(default=False),
+    order: str = Query(default="asc"),
+    limit: int = Query(default=5, ge=1, le=100),
+    db: AsyncSession = Depends(get_db)
+):
+    products = await get_all_products(db)
 
-#JSONResponse is basically a wait to show the output
-@app.get("/",response_model=Dict)
-def root(dep=Depends(hello)):
-     #return {"message":"Welcome to FastAPI","dependencies":dep,"Data_path":DB_PATH}
-     return JSONResponse(
-          status_code=200,
-          content={"message":"Welcome to FastAPI",
-                   "dependencies":dep,
-                   "Data_path":DB_PATH})
+    # JSON mode returns list of dict
+    # DB mode returns ORM objects
+    if products and not isinstance(products[0], dict):
+        products = [p.__dict__ for p in products]
+        for p in products:
+            p.pop("_sa_instance_state", None)
 
-#dynamic route: value will change with input
-# @app.get("/products/{id}")
-# def product_id(id:int):
-#      product=["Laptop","Camera","Brush"]
-#      return product[id]
+    if name:
+        new_name = name.lower().strip()
+        products = [
+            p for p in products
+            if new_name in p.get("name", "").lower()
+        ]
 
-# @app.get("/products")
-# def get_prod():
-#      return get_products()
+    if not products:
+        raise HTTPException(status_code=404, detail="Product not found")
 
-#we will use http exception to handle exceptions that occur such as 404,209 etc.
-#when we run the Query function the link will also show the query passed eg: '/products?name=apple'
-#we apply sort to sort asc or desc
-@app.get('/products')
-def list_products(name:str=Query(default=None,min_length=1,max_length=50,description="Search by product name"),
-                  sort_price:bool=Query(default=False,description="Sort by product price"),
-                  order:str=Query(default="asc",description="Sort by product when the sort_price=true {asc,desc}"),
-                  limit:int=Query(default=5,ge=1,le=100,description="No. of products")):
-     products=get_products()
-     if name:
-          new_name=name.lower().strip()
-          products=[p for p in products if new_name in p.get('name','').lower()]
-     if not products:
-          raise HTTPException(status_code=404,detail=f"Product with name {name} not found")
+    if sort_price:
+        reverse = order == "desc"
+        products = sorted(
+            products,
+            key=lambda p: p.get("price", 0),
+            reverse=reverse
+        )
 
-     if sort_price:
-          reverse=order=="desc"
-          products= sorted(products,key=lambda p:p.get("price",0),reverse=reverse)
+    products = products[:limit]
 
-     products=products[:limit]
-     total=len(products)
+    return {
+        "total_len": len(products),
+        "items": products
+    }
 
-     return{
-          "total_len":total,
-          "items":products
-     }
 
-@app.get('/products/{product_id}')
-def get_product_by_id(product_id:int=Path(...,ge=1,le=50,description="Search by product id",examples=[1],)):
-     products=get_products()
-     prod=[p for p in products if p['id']==product_id]
-     if not prod:
-          raise HTTPException(status_code=404,detail=F"Product with id {product_id} not found")
-     return prod[0]
+# ---------------- GET BY ID ----------------
+@app.get("/products/{product_id}")
+async def get_product_by_id(
+    product_id: str,
+    db: AsyncSession = Depends(get_db)
+):
+    products = await get_all_products(db)
 
-#post used for getting/accepting the input data from the user which is used for some operation
-#we have built a different file for the pydantic input validation stored in schema folder
-#C aka create of CRUD operations
-@app.post('/products',status_code=201)
-def create_product(product:Product):
-     product_dict=product.model_dump(mode="json")
-     product_dict["id"]=str(uuid4())
-     product_dict["created_at"]=datetime.utcnow().isoformat()
-     try:
-          add_product(product_dict)
-     except ValueError as e:
-          raise HTTPException(status_code=400,detail=str(e))
-     return product.model_dump(mode="json")
+    if products and not isinstance(products[0], dict):
+        products = [p.__dict__ for p in products]
+        for p in products:
+            p.pop("_sa_instance_state", None)
 
-#D aka delete of CRUD
-@app.delete('/products/{product_id}')
-def delete_product(product_id:UUID = Path(...,description="Delete product id",examples=[UUID("73cbdd06-5668-4e52-b172-e765f8468398")],)):
-     try:
-          del_val= remove_product(str(product_id))
-          return del_val
-     except ValueError as e:
-          raise HTTPException(status_code=400,detail=str(e))
+    prod = [p for p in products if str(p.get("id")) == str(product_id)]
 
-#U aks update of CRUD
-#created update_product using a different pydantic class whether entries are optional
-#payload:ProductUpdate where product update is the new class and payload is a parameter to call it
-#exclude_unset is used to exclude variables which are not being passed in the function
-@app.put('/products/{product_id}')
-def update_product(
-    product_id: UUID = Path(..., description="Update product"),
-    payload: ProductUpdate = ...
+    if not prod:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    return prod[0]
+
+
+# ---------------- CREATE ----------------
+@app.post("/products", status_code=201)
+async def create_product(
+    product: Product,
+    db: AsyncSession = Depends(get_db)
+):
+    product_dict = product.model_dump(mode="json")
+
+    # JSON mode needs UUID
+    if "id" not in product_dict:
+        product_dict["id"] = str(uuid4())
+
+    product_dict["created_at"] = datetime.utcnow().isoformat()
+
+    try:
+        created = await add_product(product_dict, db)
+        return created
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# ---------------- DELETE ----------------
+@app.delete("/products/{product_id}")
+async def delete_product(
+    product_id: str,
+    db: AsyncSession = Depends(get_db)
 ):
     try:
-        updated = change_product(
-            str(product_id),
-            payload.model_dump(mode="json", exclude_unset=True)
+        deleted = await remove_product(product_id, db)
+        return deleted
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+# ---------------- UPDATE ----------------
+@app.put("/products/{product_id}")
+async def update_existing_product(
+    product_id: str,
+    payload: ProductUpdate,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        updated = await update_product(
+            product_id,
+            payload.model_dump(mode="json", exclude_unset=True),
+            db
         )
         return updated
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
-
