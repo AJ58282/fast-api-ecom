@@ -3,7 +3,7 @@
 #for validating single field we will use field validator eg:sku=abc-def-jhi the input needs
 # the hyphen also we will check for it to.
 
-
+from decimal import Decimal
 from pydantic import BaseModel, Field,field_validator,model_validator,computed_field,AnyUrl,EmailStr
 from typing import Annotated, Literal
 from uuid import UUID
@@ -128,3 +128,25 @@ class ProductUpdate(BaseModel):
     @property
     def volume(self) -> float:
         return self.dimensions.length * self.dimensions.width * self.dimensions.height
+
+
+# schema/product.py
+class ProductBase(BaseModel):
+    name: str
+    description: str | None = None
+    price: Decimal
+    stock_quantity: int
+    category: str | None = None
+    sku: str
+
+class ProductCreate(ProductBase):
+    pass
+
+class ProductResponse(ProductBase):
+    id: int
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
